@@ -11,6 +11,6 @@ Gra będzie przypominać podstawowymi mechanikami Hotline Miami, tzn. gracz będ
 - []poziom
 - []śmierć
 - []restart
-ss
-✔️Co zrobione:
+
+## ✔️Co zrobione:
 - [x]poruszanie się(rozbudować)
