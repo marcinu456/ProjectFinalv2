@@ -5,12 +5,15 @@ Gra będzie przypominać podstawowymi mechanikami Hotline Miami, tzn. gracz będ
 ## ⚙️Użyta technologia:
 - **Unreal Engine 4**
 ## 📜Do zrobienia:
-- []walka
-- []bot
-- []menu
-- []poziom
-- []śmierć
-- []restart
+- [ ] walka
+- [ ] bot
+- [ ] menu
+- [ ] poziom
+- [ ] śmierć
+- [ ] restart
 
 ## ✔️Co zrobione:
-- [x]poruszanie się(rozbudować)
+- [x] poruszanie się(rozbudować)
+
+###### Game by Cookie Core 
+![alt text](https://raw.githubusercontent.com/marcinu456/Logo/master/logocoockiecore_icon.png "Cookie Core logo")
