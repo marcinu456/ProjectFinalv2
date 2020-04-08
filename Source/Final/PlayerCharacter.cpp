@@ -32,6 +32,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	SetCursorDirectory();
+
 }
 
 // Called to bind functionality to input
