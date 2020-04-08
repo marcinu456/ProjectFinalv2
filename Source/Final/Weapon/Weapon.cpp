@@ -1,10 +1,12 @@
 // By Cookie Core
 
 #include "MainCharacter.h"
+#include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/CollisionProfile.h"
 #include "Engine/Engine.h"
+#include "DrawDebugHelpers.h"
 #include "Weapon.h"
 
 // Sets default values
@@ -53,7 +55,7 @@ AWeapon::AWeapon()
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
 }
 
 
@@ -63,24 +65,22 @@ void AWeapon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	MeshComponent->AddRelativeRotation(FRotator(0.0f, RotationSpeed * DeltaTime, 0.0f));
+	//IsPickup();
 }
 
-void AWeapon::NotifyActorBeginOverlap(AActor* OtherActor)
+
+void AWeapon::IsPickup()
 {
-	// Use UE4 Cast to check if an actor is a player.	
-// For Unreal Object (UCLASS, UINTERFACE<) allways use Cast<> instead of dynamic_cast<>
-	if (AMainCharacter* player = Cast<AMainCharacter>(OtherActor))
-	{
-		// Call virtual function from subclass - C++.
-		OnPickUp(player);
+	UE_LOG(LogTemp, Warning, TEXT("It works"));
+	// Call virtual function from subclass - C++.
+	OnPickUp();
 
-		// Call virtual function from Blueprint.
-		ReceiveOnPickUp(player);
+	// Call virtual function from Blueprint.
+	//ReceiveOnPickUp();
 
-		// Turn off collisions to stop generate Actor Overlap events.
-		SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		// Set invisible.
-		MeshComponent->SetVisibility(false, true);
-
-	}
+	// Turn off collisions to stop generate Actor Overlap events.
+	//SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	// Set invisible.
+	//MeshComponent->SetVisibility(false, true);
 }
+

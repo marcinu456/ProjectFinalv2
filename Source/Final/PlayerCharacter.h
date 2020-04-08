@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MainCharacter.h"
+#include "Weapon/Weapon.h"
 #include "PlayerCharacter.generated.h"
 
 /**
@@ -32,7 +33,10 @@ public:
 	//Trigger attack anim based on user input
 	void AttackInput();
 
+	//Podnoszenie broni
+	void PickUp();
 
+	//Pozycja myszki do której kieruje siê gracz
 	void SetCursorDirectory();
 
 	/** Top down camera */
@@ -43,10 +47,26 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
+	/** Holding Component */
+	UPROPERTY(EditAnywhere)
+		class USceneComponent* HoldingComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Trigger Capsule")
+		class UCapsuleComponent* TriggerCapsule;
+
 private:
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UDecalComponent* CursorToWorld;
 
-	bool starta = false;
+	// declare overlap begin function
+	UFUNCTION()
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	// declare overlap end function
+	UFUNCTION()
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	class AWeapon* CurrentWeapon;
+
 };

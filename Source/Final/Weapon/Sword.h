@@ -17,5 +17,6 @@ class FINAL_API ASword : public AWeapon
 	GENERATED_BODY()
 	
 protected:
-	virtual void OnPickUp(AMainCharacter* Player) override;
+	virtual void OnPickUp() override;
+
 };

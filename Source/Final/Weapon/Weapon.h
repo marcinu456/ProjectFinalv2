@@ -9,6 +9,11 @@
 class AMainCharacter;
 class USphereComponent;
 class UStaticMeshComponent;
+class APlayerCharacter;
+
+/*
+Klasa bazowa broni
+*/
 
 UCLASS(Abstract)
 class FINAL_API AWeapon : public AActor
@@ -28,15 +33,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
-	virtual void OnPickUp(AMainCharacter* Player) PURE_VIRTUAL(AWeapon::OnPickUp, );
+	virtual void OnPickUp() PURE_VIRTUAL(AWeapon::OnPickUp, );
 
-	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = OnPickUp))
-		void ReceiveOnPickUp(AMainCharacter* Player);
+	//UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = OnPickUp))
+	//	void ReceiveOnPickUp(AMainCharacter* Player);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	//Funkcja wywowy³ana po stronie gracza
+	void IsPickup();
+
+	UPROPERTY(Transient, DuplicateTransient)
+		APlayerCharacter* PlayerCharacterOwner;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

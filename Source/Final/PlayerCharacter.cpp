@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Cookie Core
 
 
 #include "PlayerCharacter.h"
@@ -27,12 +27,24 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	TriggerCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Trigger Capsule"));
+	TriggerCapsule->InitCapsuleSize(55.f, 96.0f);;
+	TriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
+	TriggerCapsule->SetupAttachment(RootComponent);
+
+	// bind trigger events
+	TriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);
+	TriggerCapsule->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
+
+	CurrentWeapon = NULL;
+
 }
+
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	SetCursorDirectory();
-
+	//PickUpWeapon(bIsPickUp);
 }
 
 // Called to bind functionality to input
@@ -47,6 +59,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Attack bindigs
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::AttackInput);
 	PlayerInputComponent->BindAction("Attack", IE_Released, this, &AMainCharacter::AttackEnd);
+
+	//Pickup binding
+	PlayerInputComponent->BindAction("PickUp", IE_Pressed, this, &APlayerCharacter::PickUp);
 }
 
 void APlayerCharacter::MoveForward(float Value)
@@ -82,7 +97,16 @@ void APlayerCharacter::AttackInput()
 	PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 }
 
-void APlayerCharacter::SetCursorDirectory()//Pozycja do myszki
+void APlayerCharacter::PickUp()
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->IsPickup();
+	}
+}
+
+
+void APlayerCharacter::SetCursorDirectory()
 {
 
 	FVector CurrLoc = this->GetActorLocation();
@@ -95,4 +119,20 @@ void APlayerCharacter::SetCursorDirectory()//Pozycja do myszki
 
 
 	this->GetController()->SetControlRotation(newRot);
+}
+
+void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && (OtherActor != this) && OtherComp && OtherActor->GetClass()->IsChildOf(AWeapon::StaticClass()))
+	{
+		CurrentWeapon = Cast<AWeapon>(OtherActor);
+	}
+}
+
+void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor && (OtherActor != this) && OtherComp)
+	{
+		CurrentWeapon = NULL;
+	}
 }

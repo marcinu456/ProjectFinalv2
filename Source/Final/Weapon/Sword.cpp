@@ -3,7 +3,8 @@
 
 #include "Sword.h"
 
-void ASword::OnPickUp(AMainCharacter* Player)
+void ASword::OnPickUp()
 {
-	int i = 1;
+	UE_LOG(LogTemp, Warning, TEXT("It works here too"));
+	Destroy();
 }
