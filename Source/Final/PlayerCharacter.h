@@ -4,12 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "MainCharacter.h"
-#include "Weapon/Weapon.h"
+#include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
 /**
  * 
  */
+
+class AWeapon;
+
 UCLASS()
 class FINAL_API APlayerCharacter : public AMainCharacter
 {
@@ -67,6 +70,6 @@ private:
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	class AWeapon* CurrentWeapon;
+	
 
 };

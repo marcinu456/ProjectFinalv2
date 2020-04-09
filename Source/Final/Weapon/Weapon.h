@@ -7,8 +7,9 @@
 #include "Weapon.generated.h"
 
 class AMainCharacter;
+class UBoxComponent;
 class USphereComponent;
-class UStaticMeshComponent;
+class USkeletalMeshComponent;
 class APlayerCharacter;
 
 /*
@@ -22,10 +23,11 @@ class FINAL_API AWeapon : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	AWeapon();
+	AWeapon(const FObjectInitializer& ObjectInitializer);
 
-	USphereComponent* GetSphereComponent() const { return SphereComponent; }
-	UStaticMeshComponent* GetMeshComponent() const { return MeshComponent; }
+	//UBoxComponent* GetSphereComponent() const { return CollisionComp; }
+	//UStaticMeshComponent* GetMeshComponent() const { return MeshComponent; }
+	//USphereComponent* GetSphereComponent() const { return SphereComponent; }
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float RotationSpeed = 180.0f;
@@ -50,7 +52,21 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		USphereComponent* SphereComponent;
+		UBoxComponent* CollisionComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		UStaticMeshComponent* MeshComponent;
+		USkeletalMeshComponent* WeaponMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		USphereComponent* SphereTriggerComponent;
+
+public:
+	void SetOwningPawn(APlayerCharacter* NewOwner);
+
+	void AttachToPlayer();
+	void DetachFromPlayer();
+
+	void OnEquip();
+	void OnUnEquip();
+
+protected:
+	APlayerCharacter* MyPawn;
 };

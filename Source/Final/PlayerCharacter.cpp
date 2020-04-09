@@ -2,6 +2,7 @@
 
 
 #include "PlayerCharacter.h"
+#include "Weapon/Weapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -99,9 +100,15 @@ void APlayerCharacter::AttackInput()
 
 void APlayerCharacter::PickUp()
 {
+	//AWeapon* Spawner = GetWorld()->SpawnActor<AWeapon>(WeaponSpawn);
+	
 	if (CurrentWeapon)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::PickUp()"));
+		CurrentWeapon->SetOwningPawn(this);
+		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
 		CurrentWeapon->IsPickup();
+		CurrentWeapon->OnEquip();
 	}
 }
 
@@ -116,8 +123,6 @@ void APlayerCharacter::SetCursorDirectory()
 	FRotator newRot = this->GetActorRotation();
 	float newYaw = (hitLoc - CurrLoc).Rotation().Yaw;;
 	newRot.Yaw = newYaw;
-
-
 	this->GetController()->SetControlRotation(newRot);
 }
 

@@ -29,6 +29,7 @@ enum class EAttackType : uint8 {
 };
 
 
+class AWeapon;
 
 
 UCLASS(config = Game)
@@ -121,4 +122,11 @@ private:
 	* @param ELogOutput - All, Output Log or Screen
 	*/
 	void Log(ELogLevel LogLevel, FString Message, ELogOutput LogOutput);
+
+public:
+	UPROPERTY(VisibleAnywhere, Category = Spawn)
+		TSubclassOf<AWeapon> WeaponSpawn;
+
+	AWeapon* CurrentWeapon;
+
 };

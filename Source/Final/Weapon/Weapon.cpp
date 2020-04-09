@@ -3,14 +3,14 @@
 #include "MainCharacter.h"
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
-#include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Engine/CollisionProfile.h"
 #include "Engine/Engine.h"
 #include "DrawDebugHelpers.h"
 #include "Weapon.h"
 
 // Sets default values
-AWeapon::AWeapon()
+AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -21,25 +21,17 @@ AWeapon::AWeapon()
 			- CreateOptionalDefaultSubobject
 			- All of them are commented in code or in documentation
 	*/
-	SphereComponent = CreateDefaultSubobject<USphereComponent>("Sphere");
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("CoinMesh");
-
+	CollisionComp = CreateDefaultSubobject<UBoxComponent>("CollisionComp");
+	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
+	SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
 	// 2. Set default parameters.
 	/*	You can set any parameters you can change in Blueprint and even more.
 		Quite often you will need to call a function instead of setting the property directly.
 	*/
-	SphereComponent->InitSphereRadius(100.0f); //< Here you call InitSphereRadius, after the ctor you should call SetSphereRadius
+	SphereTriggerComponent->InitSphereRadius(100.0f); //< Here you call InitSphereRadius, after the ctor you should call SetSphereRadius
 	//SphereComponent->bNotifyRigidBodyCollision = true; //< Not needed. Simulation Generates Hit Events.
 	//SphereComponent->SetGenerateOverlapEvents(true); //< Not needed.
-	SphereComponent->SetCollisionProfileName(TEXT("Trigger"));
-
-	MeshComponent->SetGenerateOverlapEvents(false);
-	MeshComponent->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMeshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
-	if (SphereMeshAsset.Succeeded())
-	{
-		MeshComponent->SetStaticMesh(SphereMeshAsset.Object);
-	}
+	SphereTriggerComponent->SetCollisionProfileName(TEXT("Trigger"));
 
 	// 3. Setup attachments.
 	/*	Define RootComponet.
@@ -47,15 +39,16 @@ AWeapon::AWeapon()
 		@remarks If you want change hierarchy call AttachToComponent after the ctor.
 
 	*/
-	RootComponent = SphereComponent;
-	MeshComponent->SetupAttachment(SphereComponent);
+	RootComponent = CollisionComp;
+	WeaponMesh->SetupAttachment(CollisionComp);
+	SphereTriggerComponent->SetupAttachment(CollisionComp);
 }
 
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
+	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereTriggerComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
 }
 
 
@@ -64,7 +57,7 @@ void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MeshComponent->AddRelativeRotation(FRotator(0.0f, RotationSpeed * DeltaTime, 0.0f));
+	//WeaponMesh->AddRelativeRotation(FRotator(0.0f, RotationSpeed * DeltaTime, 0.0f));
 	//IsPickup();
 }
 
@@ -79,8 +72,43 @@ void AWeapon::IsPickup()
 	//ReceiveOnPickUp();
 
 	// Turn off collisions to stop generate Actor Overlap events.
-	//SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//SphereTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	// Set invisible.
 	//MeshComponent->SetVisibility(false, true);
 }
+
+void AWeapon::SetOwningPawn(APlayerCharacter* NewOwner)
+{
+	if (MyPawn != NewOwner)
+	{
+		Instigator = NewOwner;
+		MyPawn = NewOwner;
+	}
+}
+
+void AWeapon::AttachToPlayer()
+{
+	if (MyPawn)
+	{
+		DetachFromPlayer();
+		UE_LOG(LogTemp, Warning, TEXT("AWeapon::AttachToPlayer()"));
+		USkeletalMeshComponent* Character = MyPawn->GetMesh();
+		WeaponMesh->SetHiddenInGame(false);
+		WeaponMesh->AttachTo(Character, "Weapon_socket");
+	}
+}
+
+void AWeapon::DetachFromPlayer()
+{
+	WeaponMesh->DetachFromParent();
+	WeaponMesh->SetHiddenInGame(true);
+}
+
+void AWeapon::OnEquip()
+{
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	AttachToPlayer();
+	UE_LOG(LogTemp, Warning, TEXT("AWeapon::OnEquip()"));
+}
+
 

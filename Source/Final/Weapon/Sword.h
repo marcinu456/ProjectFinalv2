@@ -15,8 +15,10 @@ UCLASS()
 class FINAL_API ASword : public AWeapon
 {
 	GENERATED_BODY()
-	
+
+	ASword(const FObjectInitializer& ObjectInitializer);
 protected:
+	UFUNCTION(BlueprintCallable)
 	virtual void OnPickUp() override;
 
 };

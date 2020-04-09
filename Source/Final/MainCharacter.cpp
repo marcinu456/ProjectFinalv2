@@ -2,6 +2,7 @@
 
 
 #include "MainCharacter.h"
+#include "Weapon/Weapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -9,6 +10,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Engine.h"
 #include "Final_CharacterMovementComponent.h"
+#include "GameFramework/Character.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer)
