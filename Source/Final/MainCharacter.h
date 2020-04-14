@@ -129,4 +129,6 @@ public:
 
 	AWeapon* CurrentWeapon;
 
+	AWeapon* HoldingWeapon;
+
 };

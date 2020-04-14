@@ -56,9 +56,14 @@ void AWeapon::BeginPlay()
 void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 	//WeaponMesh->AddRelativeRotation(FRotator(0.0f, RotationSpeed * DeltaTime, 0.0f));
 	//IsPickup();
+	if (MyPawn && bIsHolding == true)
+	{
+
+		SetActorLocation(MyPawn->GetActorLocation());
+
+	}
 }
 
 
@@ -101,7 +106,13 @@ void AWeapon::AttachToPlayer()
 void AWeapon::DetachFromPlayer()
 {
 	WeaponMesh->DetachFromParent();
-	WeaponMesh->SetHiddenInGame(true);
+	if (MyPawn)
+	{
+
+		SetActorLocation(MyPawn->GetActorLocation());
+		
+	}
+	//WeaponMesh->SetHiddenInGame(true);
 }
 
 void AWeapon::OnEquip()
@@ -109,6 +120,13 @@ void AWeapon::OnEquip()
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	AttachToPlayer();
 	UE_LOG(LogTemp, Warning, TEXT("AWeapon::OnEquip()"));
+	bIsHolding = true;
+}
+
+void AWeapon::OnUnEquip()
+{
+	DetachFromPlayer();
+	bIsHolding = false;
 }
 
 

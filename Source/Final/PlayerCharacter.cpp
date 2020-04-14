@@ -39,6 +39,7 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
 
 	CurrentWeapon = NULL;
 
+	HoldingWeapon = NULL;
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -102,13 +103,21 @@ void APlayerCharacter::PickUp()
 {
 	//AWeapon* Spawner = GetWorld()->SpawnActor<AWeapon>(WeaponSpawn);
 	
-	if (CurrentWeapon)
+	if (CurrentWeapon && bIsHoldingWeapon == false)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::PickUp()"));
+		bIsHoldingWeapon = true;
 		CurrentWeapon->SetOwningPawn(this);
 		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
 		CurrentWeapon->IsPickup();
 		CurrentWeapon->OnEquip();
+		
+	}
+	else if (CurrentWeapon && bIsHoldingWeapon == true )
+	{
+		bIsHoldingWeapon = false;
+		UE_LOG(LogTemp, Warning, TEXT("Yup"));
+		CurrentWeapon->OnUnEquip();
 	}
 }
 
@@ -136,7 +145,7 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 
 void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp)
+	if (OtherActor && (OtherActor != this) && OtherComp && bIsHoldingWeapon == false)
 	{
 		CurrentWeapon = NULL;
 	}

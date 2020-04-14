@@ -16,6 +16,8 @@ class APlayerCharacter;
 Klasa bazowa broni
 */
 
+
+//TODO naprawiæ pozycjonowanie broni
 UCLASS(Abstract)
 class FINAL_API AWeapon : public AActor
 {
@@ -61,12 +63,17 @@ private:
 public:
 	void SetOwningPawn(APlayerCharacter* NewOwner);
 
+	//Dodanie do socketu w playerze
 	void AttachToPlayer();
+	//Od³¹czenie od socketu w playerze
 	void DetachFromPlayer();
+
 
 	void OnEquip();
 	void OnUnEquip();
 
 protected:
 	APlayerCharacter* MyPawn;
+
+	bool bIsHolding = false;
 };
