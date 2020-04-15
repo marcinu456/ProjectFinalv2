@@ -98,6 +98,7 @@ void AWeapon::AttachToPlayer()
 		DetachFromPlayer();
 		UE_LOG(LogTemp, Warning, TEXT("AWeapon::AttachToPlayer()"));
 		USkeletalMeshComponent* Character = MyPawn->GetMesh();
+		WeaponMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 		WeaponMesh->SetHiddenInGame(false);
 		WeaponMesh->AttachTo(Character, "Weapon_socket");
 	}
@@ -110,7 +111,7 @@ void AWeapon::DetachFromPlayer()
 	{
 
 		SetActorLocation(MyPawn->GetActorLocation());
-		
+		WeaponMesh->SetRelativeLocation(MyPawn->GetActorLocation());
 	}
 	//WeaponMesh->SetHiddenInGame(true);
 }
