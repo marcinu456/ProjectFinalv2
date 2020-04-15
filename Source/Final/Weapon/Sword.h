@@ -9,7 +9,7 @@
 class USphereComponent;
 class UStaticMeshComponent;
 /**
- * 
+ Child weapon class
  */
 UCLASS()
 class FINAL_API ASword : public AWeapon

@@ -11,46 +11,50 @@ class UBoxComponent;
 class USphereComponent;
 class USkeletalMeshComponent;
 class APlayerCharacter;
+class AMainCharacter;
 
 /*
-Klasa bazowa broni
+Base class of weapon
 */
 
 
-//TODO naprawiæ pozycjonowanie broni
+//TODO fix weapon localization
+//TODO fix when player get second weapon
 UCLASS(Abstract)
 class FINAL_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	/* Sets default values for this actor's properties */
 	AWeapon(const FObjectInitializer& ObjectInitializer);
 
 	//UBoxComponent* GetSphereComponent() const { return CollisionComp; }
 	//UStaticMeshComponent* GetMeshComponent() const { return MeshComponent; }
 	//USphereComponent* GetSphereComponent() const { return SphereComponent; }
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float RotationSpeed = 180.0f;
+	/* Speed rotation of weapon*/
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+//		float RotationSpeed = 180.0f;
 protected:
-	// Called when the game starts or when spawned
+	/* Called when the game starts or when spawned */
 	virtual void BeginPlay() override;
 
-
+	//
 	virtual void OnPickUp() PURE_VIRTUAL(AWeapon::OnPickUp, );
 
 	//UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = OnPickUp))
 	//	void ReceiveOnPickUp(AMainCharacter* Player);
 public:	
-	// Called every frame
+	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 
-	//Funkcja wywowy³ana po stronie gracza
+	//
 	void IsPickup();
 
+	/*Create variable for CharacterOwner who get the weapon */
 	UPROPERTY(Transient, DuplicateTransient)
-		APlayerCharacter* PlayerCharacterOwner;
+		AMainCharacter* CharacterOwner;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -61,19 +65,22 @@ private:
 		USphereComponent* SphereTriggerComponent;
 
 public:
-	void SetOwningPawn(APlayerCharacter* NewOwner);
+	/* Set the Character Owner who pickup the weapon*/
+	void SetCharacterOwner(AMainCharacter* NewOwner);
 
-	//Dodanie do socketu w playerze
-	void AttachToPlayer();
-	//Od³¹czenie od socketu w playerze
-	void DetachFromPlayer();
+	/* Attach weapon to Socket in CharacterOwner Mesh */
+	void AttachToCharacter();
+	/* Attach weapon from Socket in CharacterOwner Mesh */
+	void DetachFromCharacter();
 
-
+	/* Called when Character try Equip Weapon*/
 	void OnEquip();
+
+	/* Called when Character try UnEquip Weapon*/
 	void OnUnEquip();
 
 protected:
-	APlayerCharacter* MyPawn;
 
+	/* Inform if weapon is holding by Character*/
 	bool bIsHolding = false;
 };

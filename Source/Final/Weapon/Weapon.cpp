@@ -13,32 +13,16 @@
 AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	// 1. Create components.
-	/*	Use _CreateDefaultSubobject_ to create components in C++
-		There are a few similar functions for advanced users:
-			- CreateEditorOnlyDefaultSubobject
-			- CreateOptionalDefaultSubobject
-			- All of them are commented in code or in documentation
-	*/
+	PrimaryActorTick.bCanEverTick = false;
+
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>("CollisionComp");
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
-	// 2. Set default parameters.
-	/*	You can set any parameters you can change in Blueprint and even more.
-		Quite often you will need to call a function instead of setting the property directly.
-	*/
-	SphereTriggerComponent->InitSphereRadius(100.0f); //< Here you call InitSphereRadius, after the ctor you should call SetSphereRadius
-	//SphereComponent->bNotifyRigidBodyCollision = true; //< Not needed. Simulation Generates Hit Events.
-	//SphereComponent->SetGenerateOverlapEvents(true); //< Not needed.
+
+	SphereTriggerComponent->InitSphereRadius(100.0f);
+
 	SphereTriggerComponent->SetCollisionProfileName(TEXT("Trigger"));
 
-	// 3. Setup attachments.
-	/*	Define RootComponet.
-		SetupAttachment - attach child to parent - works only in ctor.
-		@remarks If you want change hierarchy call AttachToComponent after the ctor.
-
-	*/
 	RootComponent = CollisionComp;
 	WeaponMesh->SetupAttachment(CollisionComp);
 	SphereTriggerComponent->SetupAttachment(CollisionComp);
@@ -48,7 +32,7 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereTriggerComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
+	//DrawDebugSphere(GetWorld(), GetActorLocation(), SphereTriggerComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
 }
 
 
@@ -57,11 +41,10 @@ void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	//WeaponMesh->AddRelativeRotation(FRotator(0.0f, RotationSpeed * DeltaTime, 0.0f));
-	//IsPickup();
-	if (MyPawn && bIsHolding == true)
+	if (CharacterOwner && bIsHolding == true)
 	{
 
-		SetActorLocation(MyPawn->GetActorLocation());
+		SetActorLocation(CharacterOwner->GetActorLocation());
 
 	}
 }
@@ -82,51 +65,56 @@ void AWeapon::IsPickup()
 	//MeshComponent->SetVisibility(false, true);
 }
 
-void AWeapon::SetOwningPawn(APlayerCharacter* NewOwner)
+/* Set the Character Owner who pickup the weapon*/
+void AWeapon::SetCharacterOwner(AMainCharacter* NewOwner)
 {
-	if (MyPawn != NewOwner)
+	if (CharacterOwner != NewOwner)
 	{
-		Instigator = NewOwner;
-		MyPawn = NewOwner;
+		CharacterOwner = NewOwner;
 	}
 }
 
-void AWeapon::AttachToPlayer()
+/* Attach weapon to Socket in CharacterOwner Mesh */
+void AWeapon::AttachToCharacter()
 {
-	if (MyPawn)
+	if (CharacterOwner)
 	{
-		DetachFromPlayer();
-		UE_LOG(LogTemp, Warning, TEXT("AWeapon::AttachToPlayer()"));
-		USkeletalMeshComponent* Character = MyPawn->GetMesh();
+		UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+		UE_LOG(LogTemp, Warning, TEXT("Character name: %s"), *(CharacterOwner->GetName()));
+		DetachFromCharacter();
+		USkeletalMeshComponent* Character = CharacterOwner->GetMesh();
 		WeaponMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 		WeaponMesh->SetHiddenInGame(false);
 		WeaponMesh->AttachTo(Character, "Weapon_socket");
+
 	}
 }
 
-void AWeapon::DetachFromPlayer()
+/* Attach weapon from Socket in CharacterOwner Mesh */
+void AWeapon::DetachFromCharacter()
 {
 	WeaponMesh->DetachFromParent();
-	if (MyPawn)
+	if (CharacterOwner)
 	{
 
-		SetActorLocation(MyPawn->GetActorLocation());
-		WeaponMesh->SetRelativeLocation(MyPawn->GetActorLocation());
+		SetActorLocation(CharacterOwner->GetActorLocation());
+		WeaponMesh->SetRelativeLocation(CharacterOwner->GetActorLocation());
 	}
-	//WeaponMesh->SetHiddenInGame(true);
 }
 
+/* Called when Character try Equip Weapon*/
 void AWeapon::OnEquip()
 {
+	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	AttachToPlayer();
-	UE_LOG(LogTemp, Warning, TEXT("AWeapon::OnEquip()"));
+	AttachToCharacter();
 	bIsHolding = true;
 }
 
+/* Called when Character try UnEquip Weapon*/
 void AWeapon::OnUnEquip()
 {
-	DetachFromPlayer();
+	DetachFromCharacter();
 	bIsHolding = false;
 }
 

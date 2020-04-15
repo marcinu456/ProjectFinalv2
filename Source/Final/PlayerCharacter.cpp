@@ -42,6 +42,7 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
 	HoldingWeapon = NULL;
 }
 
+/* Called every frame */
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -49,7 +50,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	//PickUpWeapon(bIsPickUp);
 }
 
-// Called to bind functionality to input
+/* Called to bind functionality to input */
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -63,9 +64,10 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Attack", IE_Released, this, &AMainCharacter::AttackEnd);
 
 	//Pickup binding
-	PlayerInputComponent->BindAction("PickUp", IE_Pressed, this, &APlayerCharacter::PickUp);
+	PlayerInputComponent->BindAction("PickUpWeapon", IE_Pressed, this, &APlayerCharacter::PickUpWeapon);
 }
 
+/* Handles input for moving forward and backward. */
 void APlayerCharacter::MoveForward(float Value)
 {
 	// Find out which way is "forward" and record that the player wants to move that way.
@@ -76,6 +78,7 @@ void APlayerCharacter::MoveForward(float Value)
 	AddMovementInput(Direction, Value);
 }
 
+/* Handles input for moving right and left.*/
 void APlayerCharacter::MoveRight(float Value)
 {
 	// Find out which way is "right" and record that the player wants to move that way.
@@ -87,6 +90,7 @@ void APlayerCharacter::MoveRight(float Value)
 
 }
 
+/* Trigger attack anim based on user input */
 void APlayerCharacter::AttackInput()
 {
 
@@ -99,15 +103,16 @@ void APlayerCharacter::AttackInput()
 	PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 }
 
-void APlayerCharacter::PickUp()
+/* Called when Player using PickUpWeapon Action Mapping Input*/
+void APlayerCharacter::PickUpWeapon()
 {
 	//AWeapon* Spawner = GetWorld()->SpawnActor<AWeapon>(WeaponSpawn);
 	
 	if (CurrentWeapon && bIsHoldingWeapon == false)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::PickUp()"));
+		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::PickUpWeapon()"));
 		bIsHoldingWeapon = true;
-		CurrentWeapon->SetOwningPawn(this);
+		CurrentWeapon->SetCharacterOwner(this);
 		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
 		CurrentWeapon->IsPickup();
 		CurrentWeapon->OnEquip();
@@ -121,7 +126,7 @@ void APlayerCharacter::PickUp()
 	}
 }
 
-
+/*Rotate Player to Cursor Position*/
 void APlayerCharacter::SetCursorDirectory()
 {
 
@@ -135,6 +140,7 @@ void APlayerCharacter::SetCursorDirectory()
 	this->GetController()->SetControlRotation(newRot);
 }
 
+/* declare overlap begin function */
 void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && (OtherActor != this) && OtherComp && OtherActor->GetClass()->IsChildOf(AWeapon::StaticClass()))
@@ -143,6 +149,7 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	}
 }
 
+/* declare overlap end function */
 void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (OtherActor && (OtherActor != this) && OtherComp && bIsHoldingWeapon == false)

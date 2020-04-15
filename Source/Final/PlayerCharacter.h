@@ -20,26 +20,27 @@ class FINAL_API APlayerCharacter : public AMainCharacter
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter(const FObjectInitializer& ObjectInitializer);
-	// Called every frame
+	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	/* Called to bind functionality to input */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	// Handles input for moving forward and backward.
+	
+	/* Handles input for moving forward and backward. */
 	UFUNCTION()
 		void MoveForward(float Value);
 
-	// Handles input for moving right and left.
+	/* Handles input for moving right and left.*/
 	UFUNCTION()
 		void MoveRight(float Value);
 
-	//Trigger attack anim based on user input
+	/* Trigger attack anim based on user input */
 	void AttackInput();
 
-	//Podnoszenie broni
-	void PickUp();
+	/* Called when Player using PickUpWeapon Action Mapping Input*/
+	void PickUpWeapon();
 
-	//Pozycja myszki do której kieruje siê gracz
+	/*Rotate Player to Cursor Position*/
 	void SetCursorDirectory();
 
 	/** Top down camera */
@@ -62,14 +63,18 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UDecalComponent* CursorToWorld;
 
-	// declare overlap begin function
+
+	//TODO must be in MainCharacter not in PlayerCharacter
+	/* declare overlap begin function */
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	// declare overlap end function
+	//TODO must be in MainCharacter not in PlayerCharacter
+	/* declare overlap end function */
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	
+	//TODO must be in MainCharacter not in PlayerCharacter
+	/* Inform if Character holding weapon*/
 	bool bIsHoldingWeapon = false;
 };
