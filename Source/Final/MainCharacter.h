@@ -131,6 +131,19 @@ public:
 
 	AWeapon* HoldingWeapon;
 
+	//TODO must be in MainCharacter not in PlayerCharacter
+/* declare overlap begin function */
+	UFUNCTION()
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	//TODO must be in MainCharacter not in PlayerCharacter
+	/* declare overlap end function */
+	UFUNCTION()
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	//TODO must be in MainCharacter not in PlayerCharacter
+	/* Inform if Character holding weapon*/
+	bool bIsHoldingWeapon = false;
 
 
 };
