@@ -1,13 +1,15 @@
 // By Cookie Core
 
-#include "MainCharacter.h"
-#include "PlayerCharacter.h"
+
+#include "Weapon.h"
+#include "Character/MainCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Engine/CollisionProfile.h"
 #include "Engine/Engine.h"
 #include "DrawDebugHelpers.h"
-#include "Weapon.h"
+
 
 // Sets default values
 AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
@@ -17,14 +19,15 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>("CollisionComp");
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
+	BladeMesh = CreateDefaultSubobject<UCapsuleComponent>("BladeMesh"); //Check CollisionProfile
+	
 	SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
-
 	SphereTriggerComponent->InitSphereRadius(100.0f);
-
 	SphereTriggerComponent->SetCollisionProfileName(TEXT("Trigger"));
-
+	
 	RootComponent = CollisionComp;
 	WeaponMesh->SetupAttachment(CollisionComp);
+	BladeMesh->SetupAttachment(WeaponMesh);
 	SphereTriggerComponent->SetupAttachment(CollisionComp);
 }
 

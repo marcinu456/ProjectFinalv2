@@ -10,6 +10,7 @@ class AMainCharacter;
 class UBoxComponent;
 class USphereComponent;
 class USkeletalMeshComponent;
+class UCapsuleComponent;
 class APlayerCharacter;
 class AMainCharacter;
 
@@ -62,7 +63,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		USkeletalMeshComponent* WeaponMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UCapsuleComponent* BladeMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		USphereComponent* SphereTriggerComponent;
+
 
 public:
 	/* Set the Character Owner who pickup the weapon*/

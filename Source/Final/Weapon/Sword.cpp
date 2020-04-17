@@ -1,9 +1,8 @@
 // By Cookie Core
 
+#include "Sword.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SceneComponent.h"
-#include "Sword.h"
-
 ASword::ASword(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
