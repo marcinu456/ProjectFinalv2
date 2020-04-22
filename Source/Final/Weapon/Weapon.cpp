@@ -89,7 +89,7 @@ void AWeapon::AttachToCharacter()
 		WeaponMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 		WeaponMesh->SetHiddenInGame(false);
 		WeaponMesh->AttachTo(Character, "Weapon_socket");
-
+		SphereTriggerComponent->SetCollisionProfileName(TEXT("HoldWeapon"));
 	}
 }
 
@@ -102,6 +102,7 @@ void AWeapon::DetachFromCharacter()
 
 		SetActorLocation(CharacterOwner->GetActorLocation());
 		WeaponMesh->SetRelativeLocation(CharacterOwner->GetActorLocation());
+		SphereTriggerComponent->SetCollisionProfileName(TEXT("Trigger"));
 	}
 }
 

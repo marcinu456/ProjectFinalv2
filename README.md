@@ -28,5 +28,13 @@ Hotline Miami w Wrocławiu ☎️🚋
 
 - [x] poruszanie się(rozbudować)
 
+
+# Raport 2:
+
+- Na tą chwilę skończone jest podstawowe poruszanie się
+- Obecnie pracuję nad systemem walki. Obecnie do systemu walki zostało skończone możliwość podnoszenia i opuszania broni, bot też na razie może podnosić i odkladać broń
+- w najbliższym czasię planowane jest skończenie całego systemu walki, czyli naprawienie buga który polega na tym, że można podnieść kilka broni na raz ,dodanie broni różniących się wyglądem i animacją uderzenia, dodanie broni palnej, bot mogący walczyć.
+
+
 ###### Game by Cookie Core 
 ![alt text](https://raw.githubusercontent.com/marcinu456/Logo/master/logocoockiecore_icon.png "Cookie Core logo")
