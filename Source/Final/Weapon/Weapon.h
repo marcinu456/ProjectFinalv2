@@ -83,8 +83,6 @@ public:
 	/* Called when Character try UnEquip Weapon*/
 	void OnUnEquip();
 
-protected:
-
 	/* Inform if weapon is holding by Character*/
 	bool bIsHolding = false;
 };

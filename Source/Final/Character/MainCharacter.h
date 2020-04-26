@@ -107,4 +107,6 @@ public:
 	/* Inform if Character holding weapon*/
 	bool bIsHoldingWeapon = false;
 
+
+
 };

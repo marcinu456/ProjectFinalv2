@@ -32,7 +32,7 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
 	TriggerCapsule->InitCapsuleSize(55.f, 96.0f);;
 	TriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	TriggerCapsule->SetupAttachment(RootComponent);
-
+	
 
 	// bind trigger events
 	TriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);
@@ -111,18 +111,18 @@ void APlayerCharacter::PickUpWeapon()
 	if (CurrentWeapon && bIsHoldingWeapon == false)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::PickUpWeapon()"));
+
 		bIsHoldingWeapon = true;
 		CurrentWeapon->SetCharacterOwner(this);
 		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
 		CurrentWeapon->IsPickup();
 		CurrentWeapon->OnEquip();
-		
 	}
-	else if (CurrentWeapon && bIsHoldingWeapon == true )
+	else if (CurrentWeapon && bIsHoldingWeapon == true)
 	{
-		bIsHoldingWeapon = false;
-		UE_LOG(LogTemp, Warning, TEXT("Yup"));
+		UE_LOG(LogTemp, Warning, TEXT("YupYup"));
 		CurrentWeapon->OnUnEquip();
+		bIsHoldingWeapon = false;
 	}
 }
 
