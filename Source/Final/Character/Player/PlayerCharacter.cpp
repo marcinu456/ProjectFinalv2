@@ -60,7 +60,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
-	// Attack bindigs
+	// Attack bindings
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::AttackInput);
 	PlayerInputComponent->BindAction("Attack", IE_Released, this, &AMainCharacter::AttackEnd);
 
@@ -111,7 +111,6 @@ void APlayerCharacter::PickUpWeapon()
 	if (CurrentWeapon && bIsHoldingWeapon == false)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::PickUpWeapon()"));
-
 		bIsHoldingWeapon = true;
 		CurrentWeapon->SetCharacterOwner(this);
 		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );

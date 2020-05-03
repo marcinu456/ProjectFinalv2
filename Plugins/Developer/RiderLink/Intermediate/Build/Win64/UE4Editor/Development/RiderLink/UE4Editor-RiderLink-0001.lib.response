@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-RiderLink-0001.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\GitKraken\ProjectFinalv2\Intermediate\Build\Win64\FinalEditor\Development\UnrealEd\SharedPCH.UnrealEd.RTTI.h.obj"
+"D:\GitKraken\ProjectFinalv2\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderLink\Module.RiderLink.cpp.obj"
+"D:\GitKraken\ProjectFinalv2\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderLink\Default.rc2.res"
+/OUT:"D:\GitKraken\ProjectFinalv2\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderLink\UE4Editor-RiderLink-0001.lib"
+/INCLUDE:IMPLEMENT_MODULE_RiderLink

@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UStaticMeshComponent;
+class AMainCharacter;
 /**
  Child weapon class
  */
@@ -20,5 +21,5 @@ class FINAL_API ASword : public AWeapon
 protected:
 	UFUNCTION(BlueprintCallable)
 	virtual void OnPickUp() override;
-
+	
 };
