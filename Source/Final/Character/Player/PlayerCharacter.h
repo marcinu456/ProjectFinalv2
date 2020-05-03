@@ -59,6 +59,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Trigger Capsule")
 		class UCapsuleComponent* TriggerCapsule;
 
+
+	
 private:
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

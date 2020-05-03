@@ -107,6 +107,8 @@ public:
 	/* Inform if Character holding weapon*/
 	bool bIsHoldingWeapon = false;
 
+	/* Set Number of AnimMontage*/
+	int32 MontageSectionIndex = 0;//rand() % 2 + 1;
 
 
 };

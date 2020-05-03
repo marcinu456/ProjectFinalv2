@@ -96,8 +96,11 @@ void APlayerCharacter::AttackInput()
 {
 
 	//generate random number between 1 and 2
-	int MontageSectionIndex = rand() % 2 + 1;
-
+	if(bIsHoldingWeapon==false)
+	{
+		MontageSectionIndex = rand() % 2 + 1;
+	}
+	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
 	// fstring animation section
 	FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
 

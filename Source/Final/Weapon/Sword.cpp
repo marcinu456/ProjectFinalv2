@@ -22,6 +22,7 @@ void ASword::OnPickUp()
 	//	//CharacterOwner->MeleeFistAttackMontage = MeleeFistAttackMontageObject.Object;
 	//	UE_LOG(LogTemp, Warning, TEXT("It works here too"));
 	//}
+	CharacterOwner->MontageSectionIndex = 3;
 	UE_LOG(LogTemp, Warning, TEXT("It works here too"));
 	//Destroy();
 }
