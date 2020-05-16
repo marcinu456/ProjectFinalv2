@@ -94,17 +94,23 @@ void APlayerCharacter::MoveRight(float Value)
 /* Trigger attack anim based on user input */
 void APlayerCharacter::AttackInput()
 {
-
+	//TODO better animation section etc.
+	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
 	//generate random number between 1 and 2
-	if(bIsHoldingWeapon==false)
+	if (bIsHoldingWeapon == false)
 	{
 		MontageSectionIndex = rand() % 2 + 1;
 	}
-	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
-	// fstring animation section
-	FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
-
-	PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+	if (CurrentWeapon && MontageSectionIndex == 4)
+	{
+		CurrentWeapon->OnPickUp();
+	}
+	else
+	{
+		// fstring animation section
+		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
+		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+	}
 }
 
 /* Called when Player using PickUpWeapon Action Mapping Input*/
@@ -122,7 +128,7 @@ void APlayerCharacter::PickUpWeapon()
 	}
 	else if (CurrentWeapon && bIsHoldingWeapon == true)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("YupYup"));
+		UE_LOG(LogTemp, Warning, TEXT("UnEquip"));
 		CurrentWeapon->OnUnEquip();
 		bIsHoldingWeapon = false;
 	}

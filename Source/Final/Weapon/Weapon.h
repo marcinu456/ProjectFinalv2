@@ -41,12 +41,12 @@ protected:
 	/* Called when the game starts or when spawned */
 	virtual void BeginPlay() override;
 
-	//
+public:
 	virtual void OnPickUp() PURE_VIRTUAL(AWeapon::OnPickUp, );
 
 	//UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = OnPickUp))
 	//	void ReceiveOnPickUp(AMainCharacter* Player);
-public:	
+
 	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 
@@ -57,11 +57,12 @@ public:
 	UPROPERTY(Transient, DuplicateTransient)
 		AMainCharacter* CharacterOwner;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		USkeletalMeshComponent* WeaponMesh;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UBoxComponent* CollisionComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		USkeletalMeshComponent* WeaponMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UCapsuleComponent* BladeMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

@@ -3,6 +3,8 @@
 
 #include "Gun.h"
 #include "Character/MainCharacter.h"
+#include "Weapon/Projectile.h"
+#include "Components/SkeletalMeshComponent.h"
 
 AGun::AGun(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -12,6 +14,21 @@ AGun::AGun(const FObjectInitializer& ObjectInitializer)
 
 void AGun::OnPickUp()
 {
-	CharacterOwner->MontageSectionIndex = 3;
+	CharacterOwner->MontageSectionIndex = 4;
 	UE_LOG(LogTemp, Warning, TEXT("It works here too"));
+	if (CharacterOwner && bIsHolding == true)
+	{
+		OnFire();
+	}
+}
+
+
+void AGun::OnFire()
+{
+
+	// try and fire a projectile
+	if (ProjectileClass != NULL)
+	{
+		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, WeaponMesh->GetSocketLocation(FName("Muzzle")), WeaponMesh->GetSocketRotation(FName("Muzzle")));
+	}
 }

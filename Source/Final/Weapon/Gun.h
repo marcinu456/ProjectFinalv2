@@ -17,4 +17,9 @@ class FINAL_API AGun : public AWeapon
 protected:
 	UFUNCTION(BlueprintCallable)
 		virtual void OnPickUp() override;
+	/** Projectile class to spawn */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AProjectile> ProjectileClass;
+	
+	void OnFire();
 };
