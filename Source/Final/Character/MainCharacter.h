@@ -110,5 +110,4 @@ public:
 	/* Set Number of AnimMontage*/
 	int32 MontageSectionIndex = 0;//rand() % 2 + 1;
 
-
 };

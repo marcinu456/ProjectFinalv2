@@ -128,6 +128,7 @@ void AMainCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* O
 }
 
 
+
 void AMainCharacter::Log(ELogLevel LogLevel, FString Message)
 {
 	Log(LogLevel, Message, ELogOutput::ALL);

@@ -20,6 +20,8 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>("CollisionComp");
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	BladeMesh = CreateDefaultSubobject<UCapsuleComponent>("BladeMesh"); //Check CollisionProfile
+	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
+
 	
 	SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
 	SphereTriggerComponent->InitSphereRadius(100.0f);
@@ -122,4 +124,27 @@ void AWeapon::OnUnEquip()
 	bIsHolding = false;
 }
 
+void AWeapon::AttackStart()
+{
+	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+	BladeMesh->SetCollisionProfileName(TEXT("Weapon"));
+	BladeMesh->SetNotifyRigidBodyCollision(true);
+	BladeMesh->SetGenerateOverlapEvents(true);
+}
 
+
+void AWeapon::AttackEnd()
+{
+	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	BladeMesh->SetNotifyRigidBodyCollision(false);
+	BladeMesh->SetGenerateOverlapEvents(false);
+
+}
+
+
+void AWeapon::OnAttackHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("oj jak boli"));
+	UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *(Hit.GetActor()->GetName()));
+}

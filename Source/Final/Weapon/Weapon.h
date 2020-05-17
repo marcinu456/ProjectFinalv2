@@ -86,4 +86,15 @@ public:
 
 	/* Inform if weapon is holding by Character*/
 	bool bIsHolding = false;
+
+	/* Handles input for start attack.*/
+	void AttackStart();
+
+	/* Handles input for end attack.*/
+	void AttackEnd();
+
+	/* Triggered when the collision hit event fires between weapon and enemy*/
+	UFUNCTION()
+		void OnAttackHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 };
