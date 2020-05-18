@@ -100,14 +100,17 @@ void APlayerCharacter::AttackInput()
 	if (bIsHoldingWeapon == false)
 	{
 		MontageSectionIndex = rand() % 2 + 1;
+		//fstring animation section
+		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
+		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 	}
-	if (CurrentWeapon && MontageSectionIndex == 4)
+	else if (CurrentWeapon && MontageSectionIndex == 4)
 	{
 		CurrentWeapon->OnPickUp();
 	}
 	else
 	{
-		// fstring animation section
+		CurrentWeapon->AttackStart();
 		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
 		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 	}

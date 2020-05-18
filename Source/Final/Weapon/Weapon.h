@@ -68,6 +68,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		USphereComponent* SphereTriggerComponent;
 
+	/* Set TimerDeley to activate AttackEnd Function, for each weapon use setup in blueprint*/
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		float TimerDelay = 2.f;
 
 public:
 	/* Set the Character Owner who pickup the weapon*/
@@ -88,10 +91,12 @@ public:
 	bool bIsHolding = false;
 
 	/* Handles input for start attack.*/
-	void AttackStart();
+	UFUNCTION()
+		void AttackStart();
 
 	/* Handles input for end attack.*/
-	void AttackEnd();
+	UFUNCTION()
+		void AttackEnd();
 
 	/* Triggered when the collision hit event fires between weapon and enemy*/
 	UFUNCTION()

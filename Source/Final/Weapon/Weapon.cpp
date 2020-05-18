@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Engine/CollisionProfile.h"
 #include "Engine/Engine.h"
+#include "Engine/EngineTypes.h"
 #include "DrawDebugHelpers.h"
 
 
@@ -20,6 +21,7 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>("CollisionComp");
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	BladeMesh = CreateDefaultSubobject<UCapsuleComponent>("BladeMesh"); //Check CollisionProfile
+	BladeMesh->OnComponentHit.AddDynamic(this, &AWeapon::OnAttackHit);
 	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	
@@ -130,6 +132,8 @@ void AWeapon::AttackStart()
 	BladeMesh->SetCollisionProfileName(TEXT("Weapon"));
 	BladeMesh->SetNotifyRigidBodyCollision(true);
 	BladeMesh->SetGenerateOverlapEvents(true);
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AWeapon::AttackEnd, TimerDelay, true, TimerDelay);
 }
 
 
@@ -139,7 +143,7 @@ void AWeapon::AttackEnd()
 	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
 	BladeMesh->SetNotifyRigidBodyCollision(false);
 	BladeMesh->SetGenerateOverlapEvents(false);
-
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }
 
 
