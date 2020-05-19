@@ -97,7 +97,7 @@ void APlayerCharacter::AttackInput()
 	//TODO better animation section etc.
 	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
 	//generate random number between 1 and 2
-	if (bIsHoldingWeapon == false)
+	if (bIsHoldingWeapon == false && MontageSectionIndex != 4)
 	{
 		MontageSectionIndex = rand() % 2 + 1;
 		//fstring animation section

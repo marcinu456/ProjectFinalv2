@@ -4,6 +4,8 @@
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Character/MainCharacter.h"
 
 AProjectile::AProjectile()
 {
@@ -32,13 +34,17 @@ AProjectile::AProjectile()
 	InitialLifeSpan = 3.0f;
 }
 
+
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	// Only add impulse and destroy projectile if we hit a physics
-	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
-	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
-		Destroy();
-	}
+	AMainCharacter* DamageActor = Cast<AMainCharacter>(OtherActor);
+	if (DamageActor)
+		UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *(Hit.GetActor()->GetName()));
+	TSubclassOf<UDamageType> P;
+	FHitResult HitInfo;
+	UGameplayStatics::ApplyPointDamage(OtherActor, 50.f, GetActorLocation(), HitInfo, nullptr, this, P);
+	Destroy();
 }
+
+
+

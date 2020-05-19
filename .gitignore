@@ -83,3 +83,6 @@ DerivedDataCache/*
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+#RiderLink
+Plugins/Developer/RiderLink/Binaries
+

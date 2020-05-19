@@ -70,7 +70,7 @@ private:
 
 	/* Set TimerDeley to activate AttackEnd Function, for each weapon use setup in blueprint*/
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-		float TimerDelay = 2.f;
+		float TimerDelay = 0.7f;
 
 public:
 	/* Set the Character Owner who pickup the weapon*/

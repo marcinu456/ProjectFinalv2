@@ -10,6 +10,7 @@
 #include "Engine/Engine.h"
 #include "Engine/EngineTypes.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -22,7 +23,7 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	BladeMesh = CreateDefaultSubobject<UCapsuleComponent>("BladeMesh"); //Check CollisionProfile
 	BladeMesh->OnComponentHit.AddDynamic(this, &AWeapon::OnAttackHit);
-	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	//BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	
 	SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
@@ -39,6 +40,7 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	//BladeMesh->Deactivate();
 	//DrawDebugSphere(GetWorld(), GetActorLocation(), SphereTriggerComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
 }
 
@@ -129,7 +131,7 @@ void AWeapon::OnUnEquip()
 void AWeapon::AttackStart()
 {
 	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
-	BladeMesh->SetCollisionProfileName(TEXT("Weapon"));
+	//BladeMesh->Activate();
 	BladeMesh->SetNotifyRigidBodyCollision(true);
 	BladeMesh->SetGenerateOverlapEvents(true);
 	FTimerHandle Timer;
@@ -140,7 +142,7 @@ void AWeapon::AttackStart()
 void AWeapon::AttackEnd()
 {
 	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
-	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	//BladeMesh->Deactivate();
 	BladeMesh->SetNotifyRigidBodyCollision(false);
 	BladeMesh->SetGenerateOverlapEvents(false);
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
@@ -149,6 +151,11 @@ void AWeapon::AttackEnd()
 
 void AWeapon::OnAttackHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("oj jak boli"));
-	UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *(Hit.GetActor()->GetName()));
+	AMainCharacter* DamageActor = Cast<AMainCharacter>(OtherActor);
+	if(DamageActor)
+		UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *(Hit.GetActor()->GetName()));
+	TSubclassOf<UDamageType> P;
+	FHitResult HitInfo;
+	UGameplayStatics::ApplyPointDamage(OtherActor, 50.f, GetActorLocation(), HitInfo, nullptr, this, P);
+
 }

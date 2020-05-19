@@ -7,28 +7,6 @@
 #include "Components/BoxComponent.h"
 #include "MainCharacter.generated.h"
 
-UENUM(BlueprintType)
-enum class ELogLevel : uint8 {
-	TRACE			UMETA(DisplayName = "Trace"),
-	DEBUG			UMETA(DisplayName = "Debug"),
-	INFO			UMETA(DisplayName = "Info"),
-	WARNING			UMETA(DisplayName = "Warning"),
-	ERROR			UMETA(DisplayName = "Error")
-};
-
-UENUM(BlueprintType)
-enum class ELogOutput : uint8 {
-	ALL				UMETA(DisplayName = "All levels"),
-	OUTPUT_LOG		UMETA(DisplayName = "Output log"),
-	SCREEN			UMETA(DisplayName = "Screen")
-};
-
-UENUM(BlueprintType)
-enum class EAttackType : uint8 {
-	MELEE_FIST			UMETA(DisplayName = "Melee - Fist")
-};
-
-
 class AWeapon;
 
 
@@ -74,19 +52,6 @@ private:
 	/** RightFistCollisionBox */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 		class UBoxComponent* RightFistCollisionBox;
-	/**
-	* Log - prints a message to all the log outputs with a specific color
-	* @param LogLevel {@see ELogLevel} affects color of log
-	* @param FString the message for display
-	*/
-	void Log(ELogLevel LogLevel, FString Message);
-	/**
-	* Log - prints a message to all the log outputs with a specific color
-	* @param LogLevel {@see ELogLevel} affects color of log
-	* @param FString the message for display
-	* @param ELogOutput - All, Output Log or Screen
-	*/
-	void Log(ELogLevel LogLevel, FString Message, ELogOutput LogOutput);
 
 public:
 	UPROPERTY(VisibleAnywhere, Category = Spawn)
@@ -109,5 +74,10 @@ public:
 
 	/* Set Number of AnimMontage*/
 	int32 MontageSectionIndex = 0;//rand() % 2 + 1;
+	
+	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float Health = 100.0f;
 };
