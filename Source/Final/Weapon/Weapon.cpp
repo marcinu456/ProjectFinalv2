@@ -22,8 +22,7 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>("CollisionComp");
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	BladeMesh = CreateDefaultSubobject<UCapsuleComponent>("BladeMesh"); //Check CollisionProfile
-	BladeMesh->OnComponentHit.AddDynamic(this, &AWeapon::OnAttackHit);
-	//BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	
 	SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
@@ -40,6 +39,7 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	BladeMesh->OnComponentHit.AddDynamic(this, &AWeapon::OnAttackHit);
 	//BladeMesh->Deactivate();
 	//DrawDebugSphere(GetWorld(), GetActorLocation(), SphereTriggerComponent->GetScaledSphereRadius(), 6, FColor::Turquoise, true, -1, 0, 2);
 }
@@ -130,21 +130,37 @@ void AWeapon::OnUnEquip()
 
 void AWeapon::AttackStart()
 {
-	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+	//TODO Change this after fix animation and delete AttackisStart()
+	//UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+	//BladeMesh->SetCollisionProfileName(TEXT("Projectile"));
 	//BladeMesh->Activate();
-	BladeMesh->SetNotifyRigidBodyCollision(true);
-	BladeMesh->SetGenerateOverlapEvents(true);
+	//BladeMesh->SetNotifyRigidBodyCollision(true);
+	//BladeMesh->SetGenerateOverlapEvents(true);
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AWeapon::AttackisStart, 0.2f, true, 0.2f);
+}
+
+void AWeapon::AttackisStart()
+{
+	
+	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+	BladeMesh->SetCollisionProfileName(TEXT("Projectile"));
+	//BladeMesh->Activate();
+	//BladeMesh->SetNotifyRigidBodyCollision(true);
+	//BladeMesh->SetGenerateOverlapEvents(true);
 	FTimerHandle Timer;
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AWeapon::AttackEnd, TimerDelay, true, TimerDelay);
 }
 
 
+
 void AWeapon::AttackEnd()
 {
 	UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+	BladeMesh->SetCollisionProfileName(TEXT("NoCollision"));
 	//BladeMesh->Deactivate();
-	BladeMesh->SetNotifyRigidBodyCollision(false);
-	BladeMesh->SetGenerateOverlapEvents(false);
+	//BladeMesh->SetNotifyRigidBodyCollision(false);
+	//BladeMesh->SetGenerateOverlapEvents(false);
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }
 
@@ -152,10 +168,13 @@ void AWeapon::AttackEnd()
 void AWeapon::OnAttackHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	AMainCharacter* DamageActor = Cast<AMainCharacter>(OtherActor);
-	if(DamageActor)
+	if (DamageActor != CharacterOwner)
+	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *(Hit.GetActor()->GetName()));
-	TSubclassOf<UDamageType> P;
-	FHitResult HitInfo;
-	UGameplayStatics::ApplyPointDamage(OtherActor, 50.f, GetActorLocation(), HitInfo, nullptr, this, P);
+		TSubclassOf<UDamageType> P;
+		FHitResult HitInfo;
+		UGameplayStatics::ApplyDamage(OtherActor, 6.f, nullptr, this, nullptr);
+		//UGameplayStatics::ApplyPointDamage(OtherActor, 50.f, GetActorLocation(), HitInfo, nullptr, this, P);
+	}
 
 }
