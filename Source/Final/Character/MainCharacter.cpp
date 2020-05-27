@@ -11,6 +11,7 @@
 #include "Engine.h"
 #include "Final_CharacterMovementComponent.h"
 #include "GameFramework/Character.h"
+#include "MyFinalGameModeBase.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer)
@@ -64,6 +65,9 @@ void AMainCharacter::BeginPlay()
 	RightFistCollisionBox->OnComponentHit.AddDynamic(this, &AMainCharacter::OnAttackHit);
 	//RightFistCollisionBox->OnComponentBeginOverlap.AddDynamic(this, &AMainCharacter::OnAttackOverlapBegin);
 	//RightFistCollisionBox->OnComponentEndOverlap.AddDynamic(this, &AMainCharacter::OnAttackOverlapEnd);
+
+	AMyFinalGameModeBase* GameMode = Cast<AMyFinalGameModeBase>(GetWorld()->GetAuthGameMode());
+	GameMode->killcount += 1;
 }
 
 // Called every frame 
@@ -136,10 +140,20 @@ float AMainCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, 
 	}
 	if(Health<=0.f)
 	{
+		// Stop movement.
+		GetMovementComponent()->StopMovementImmediately();
+		// Disable OnTick for component - optimization.
+		GetMovementComponent()->SetComponentTickEnabled(false);
+
 		// Turn on physics = here enable radgoll for mesh.
 		GetMesh()->SetSimulatePhysics(true);
 		// and set proper collision profile.
 		GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
+		// Disable collision for capsule.
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		AMyFinalGameModeBase* GameMode = Cast<AMyFinalGameModeBase>(GetWorld()->GetAuthGameMode());
+		GameMode->killcount -= 1;
+		GameMode->HowManytoKill();
 	}
 	return ActualDamage;
 }

@@ -107,4 +107,11 @@ public:
 	UFUNCTION()
 		void OnAttackHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	/** Type of damage done */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PainCausingVolume)
+		TSubclassOf<UDamageType> DamageType;
+	
+	/** Controller that gets credit for any damage caused by this volume */
+	UPROPERTY()
+		class AController* DamageInstigator;
 };

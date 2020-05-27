@@ -66,6 +66,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	//Pickup binding
 	PlayerInputComponent->BindAction("PickUpWeapon", IE_Pressed, this, &APlayerCharacter::PickUpWeapon);
+
+	//Reset binding
+	PlayerInputComponent->BindAction("Reset", IE_Pressed, this, &APlayerCharacter::ResetLevel);
 }
 
 /* Handles input for moving forward and backward. */
@@ -149,5 +152,11 @@ void APlayerCharacter::SetCursorDirectory()
 	float newYaw = (hitLoc - CurrLoc).Rotation().Yaw;;
 	newRot.Yaw = newYaw;
 	this->GetController()->SetControlRotation(newRot);
+}
+
+void APlayerCharacter::ResetLevel()
+{
+	if(Health<=0.f)
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 

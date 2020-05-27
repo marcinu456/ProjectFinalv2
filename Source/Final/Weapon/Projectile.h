@@ -35,4 +35,11 @@ public:
 	/** Returns ProjectileMovement subobject **/
 	FORCEINLINE class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
 
+	/** Type of damage done */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PainCausingVolume)
+		TSubclassOf<UDamageType> DamageType;
+
+	/** Controller that gets credit for any damage caused by this volume */
+	UPROPERTY()
+		class AController* DamageInstigator;
 };

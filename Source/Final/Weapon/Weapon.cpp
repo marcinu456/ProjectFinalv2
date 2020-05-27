@@ -10,7 +10,9 @@
 #include "Engine/Engine.h"
 #include "Engine/EngineTypes.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/DamageType.h"
 #include "Kismet/GameplayStatics.h"
+
 
 
 // Sets default values
@@ -33,6 +35,8 @@ AWeapon::AWeapon(const FObjectInitializer& ObjectInitializer)
 	WeaponMesh->SetupAttachment(CollisionComp);
 	BladeMesh->SetupAttachment(WeaponMesh);
 	SphereTriggerComponent->SetupAttachment(CollisionComp);
+
+	DamageType = UDamageType::StaticClass();
 }
 
 // Called when the game starts or when spawned
@@ -168,12 +172,12 @@ void AWeapon::AttackEnd()
 void AWeapon::OnAttackHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	AMainCharacter* DamageActor = Cast<AMainCharacter>(OtherActor);
-	if (DamageActor != CharacterOwner)
+	if (OtherActor != CharacterOwner)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *(Hit.GetActor()->GetName()));
-		TSubclassOf<UDamageType> P;
-		FHitResult HitInfo;
-		UGameplayStatics::ApplyDamage(OtherActor, 6.f, nullptr, this, nullptr);
+		//UGameplayStatics::ApplyDamage(OtherActor, 6.f, nullptr, this, nullptr);
+		TSubclassOf<UDamageType> DmgTypeClass = DamageType ? *DamageType : UDamageType::StaticClass();
+		OtherActor->TakeDamage(50.f, FDamageEvent(DmgTypeClass), DamageInstigator, this);
 		//UGameplayStatics::ApplyPointDamage(OtherActor, 50.f, GetActorLocation(), HitInfo, nullptr, this, P);
 	}
 

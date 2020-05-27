@@ -3,6 +3,8 @@
 
 #include "MyFinalGameModeBase.h"
 
+#include "Engine/Engine.h"
+
 void AMyFinalGameModeBase::StartPlay()
 {
 	Super::StartPlay();
@@ -13,5 +15,10 @@ void AMyFinalGameModeBase::StartPlay()
 		// The -1 "Key" value (first argument) indicates that we will never need to update or refresh this message.
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Hello World, this is TopDown"));
 	}
+	HowManytoKill();
+}
 
+void AMyFinalGameModeBase::HowManytoKill()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("kill %f"),killcount-1));
 }

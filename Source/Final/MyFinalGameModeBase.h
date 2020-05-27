@@ -14,4 +14,8 @@ class FINAL_API AMyFinalGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 		virtual void StartPlay() override;
+
+public:
+	float killcount = 0;
+	void HowManytoKill();
 };
