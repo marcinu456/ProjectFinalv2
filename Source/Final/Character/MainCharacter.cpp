@@ -3,6 +3,7 @@
 
 #include "MainCharacter.h"
 #include "Weapon/Weapon.h"
+#include "Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -129,14 +130,14 @@ void AMainCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* O
 	}
 }
 
-float AMainCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+float AMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Oj jak boli"));
-	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	if (ActualDamage > 0.f)
+	const float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	if (DamageAmount > 0.f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("[Jeb]"));
-		Health -= ActualDamage;
+		Health -= DamageAmount;
 	}
 	if(Health<=0.f)
 	{
@@ -155,6 +156,26 @@ float AMainCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, 
 		GameMode->killcount -= 1;
 		GameMode->HowManytoKill();
 	}
-	return ActualDamage;
+	return AActor::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
 
+void AMainCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	// instantiate the melee weapon if a bp was selected 
+	if (BP_MeleeWeapon)
+	{
+		MeleeWeapon = GetWorld()->SpawnActor<AMeleeWeapon>(
+			BP_MeleeWeapon, FVector(), FRotator());
+
+		if (MeleeWeapon)
+		{
+			const USkeletalMeshSocket* socket = GetMesh()->GetSocketByName(
+				FName("Weapon_socket")); // be sure to use correct 
+									// socket name! 
+			socket->AttachActor(MeleeWeapon, GetMesh());
+			MeleeWeapon->WeaponHolder = this;
+		}
+	}
+}

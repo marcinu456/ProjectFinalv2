@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Math/Vector.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Engine.h"
 
 APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
@@ -102,10 +103,14 @@ void APlayerCharacter::AttackInput()
 	//generate random number between 1 and 2
 	if (bIsHoldingWeapon == false && MontageSectionIndex != 4)
 	{
-		MontageSectionIndex = rand() % 2 + 1;
+		MontageSectionIndex = 3;
 		//fstring animation section
 		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
 		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+		if (MeleeWeapon)
+		{
+			MeleeWeapon->Swing();
+		}
 	}
 	else if (CurrentWeapon && MontageSectionIndex == 4)
 	{

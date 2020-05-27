@@ -8,7 +8,7 @@
 #include "MainCharacter.generated.h"
 
 class AWeapon;
-
+class AMeleeWeapon;
 
 UCLASS(config = Game)
 class FINAL_API AMainCharacter : public ACharacter
@@ -75,9 +75,22 @@ public:
 	/* Set Number of AnimMontage*/
 	int32 MontageSectionIndex = 0;//rand() % 2 + 1;
 	
-	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float Health = 100.0f;
+
+public:
+	// The MeleeWeapon class the enemy uses 
+// If this is not set, he uses a melee attack 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category =
+		EnemyProperties)
+		UClass* BP_MeleeWeapon;
+
+	// The MeleeWeapon instance (set if the enemy is using 
+	// a melee weapon) 
+	AMeleeWeapon* MeleeWeapon;
+
+	virtual void PostInitializeComponents() override;
 };

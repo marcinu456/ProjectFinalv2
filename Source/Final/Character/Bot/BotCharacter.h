@@ -8,6 +8,7 @@
 #include "BotCharacter.generated.h"
 
 class AWeapon;
+
 /**
  * 
  */
@@ -26,4 +27,5 @@ public:
 		class UCapsuleComponent* TriggerCapsule;
 
 	void PickUpWeapon();
+
 };

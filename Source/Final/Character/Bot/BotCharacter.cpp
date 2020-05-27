@@ -1,9 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "Engine/SkeletalMeshSocket.h"
 #include "BotCharacter.h"
 #include "BotController.h"
 #include "Weapon/Weapon.h"
+#include "Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Math/Vector.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine.h"
