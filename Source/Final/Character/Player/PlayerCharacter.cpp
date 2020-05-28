@@ -103,22 +103,23 @@ void APlayerCharacter::AttackInput()
 	//generate random number between 1 and 2
 	if (bIsHoldingWeapon == false && MontageSectionIndex != 4)
 	{
-		MontageSectionIndex = 3;
+		MontageSectionIndex = 1;
 		//fstring animation section
 		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
 		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
-		if (MeleeWeapon)
-		{
-			MeleeWeapon->AttackStart();
-		}
+		//if (MeleeWeapon)
+		//{
+		//	MeleeWeapon->AttackStart();
+		//}
 	}
 	else if (CurrentWeapon && MontageSectionIndex == 4)
 	{
-		//CurrentWeapon->OnPickUp();
+		CurrentWeapon->OnPickUp();
 		UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
 	}
 	else
 	{
+		UE_LOG(LogTemp, Warning, TEXT("test"));
 		CurrentWeapon->AttackStart();
 		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
 		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
@@ -135,7 +136,7 @@ void APlayerCharacter::PickUpWeapon()
 		bIsHoldingWeapon = true;
 		CurrentWeapon->SetCharacterOwner(this);
 		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
-		//CurrentWeapon->IsPickup();
+		CurrentWeapon->IsPickup();
 		CurrentWeapon->OnEquip();
 	}
 	else if (CurrentWeapon && bIsHoldingWeapon == true)

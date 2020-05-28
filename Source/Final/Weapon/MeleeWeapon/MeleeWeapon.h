@@ -88,5 +88,5 @@ public:
     /* Inform if weapon is holding by Character*/
     bool bIsHolding = false;
 
-	
+    virtual void OnPickUp() PURE_VIRTUAL(AMeleeWeapon::OnPickUp, );
 };

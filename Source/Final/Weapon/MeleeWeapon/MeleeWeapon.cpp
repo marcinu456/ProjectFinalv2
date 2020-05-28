@@ -20,14 +20,12 @@ AMeleeWeapon::AMeleeWeapon(const FObjectInitializer& ObjectInitializer)
     Swinging = false;
     WeaponHolder = NULL;
 
-    Mesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,
-        TEXT("Mesh"));
+    Mesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("Mesh"));
+    Mesh->SetCollisionProfileName(TEXT("NoCollision"));
     RootComponent = Mesh;
 
-    ProxBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this,
-        TEXT("ProxBox"));
-    ProxBox->OnComponentBeginOverlap.AddDynamic(this,
-        &AMeleeWeapon::Prox);
+    ProxBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("ProxBox"));
+    ProxBox->OnComponentBeginOverlap.AddDynamic(this, &AMeleeWeapon::Prox);
     ProxBox->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 
     SphereTriggerComponent = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereTriggerComponent"));
@@ -96,6 +94,15 @@ void AMeleeWeapon::AttackEnd()
     ThingsHit.Empty();
     Swinging = false;
     GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+}
+
+
+
+void AMeleeWeapon::IsPickup()
+{
+    UE_LOG(LogTemp, Warning, TEXT("It works"));
+    // Call virtual function from subclass - C++.
+    OnPickUp();
 }
 
 /* Set the Character Owner who pickup the weapon*/
