@@ -57,9 +57,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Spawn)
 		TSubclassOf<AWeapon> WeaponSpawn;
 
-	AWeapon* CurrentWeapon;
+	AMeleeWeapon* CurrentWeapon;
 
-	AWeapon* HoldingWeapon;
+	AMeleeWeapon* HoldingWeapon;
 
 	/* declare overlap begin function */
 	UFUNCTION()

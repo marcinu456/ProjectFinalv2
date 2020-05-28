@@ -12,6 +12,7 @@
  */
 
 class AWeapon;
+class AMeleeWeapon;
 
 UCLASS()
 class FINAL_API APlayerCharacter : public AMainCharacter

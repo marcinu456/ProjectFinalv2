@@ -30,33 +30,33 @@ ABotCharacter::ABotCharacter(const FObjectInitializer& ObjectInitializer)
 //	GetFP_GunMesh()->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 }
 
-void ABotCharacter::PickUpWeapon()
-{
-	//TODO write pickup weapon by bot
-	UE_LOG(LogTemp, Warning, TEXT("ABotCharacter::PickUpWeapon()"));
-
-	if (CurrentWeapon)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Have CurrentWeapon"));
-	}
-	else 
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not CurrentWeapon"));
-	}
-	if (CurrentWeapon && bIsHoldingWeapon == false)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ABotCharacter::PickUpWeapon()"));
-		bIsHoldingWeapon = true;
-		CurrentWeapon->SetCharacterOwner(this);
-		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
-		CurrentWeapon->IsPickup();
-		CurrentWeapon->OnEquip();
-
-	}
-	else if (CurrentWeapon && bIsHoldingWeapon == true)
-	{
-		bIsHoldingWeapon = false;
-		UE_LOG(LogTemp, Warning, TEXT("Yup"));
-		CurrentWeapon->OnUnEquip();
-	}
-}
+//void ABotCharacter::PickUpWeapon()
+//{
+//	//TODO write pickup weapon by bot
+//	UE_LOG(LogTemp, Warning, TEXT("ABotCharacter::PickUpWeapon()"));
+//
+//	if (CurrentWeapon)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("Have CurrentWeapon"));
+//	}
+//	else 
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("Not CurrentWeapon"));
+//	}
+//	if (CurrentWeapon && bIsHoldingWeapon == false)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("ABotCharacter::PickUpWeapon()"));
+//		bIsHoldingWeapon = true;
+//		CurrentWeapon->SetCharacterOwner(this);
+//		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
+//		CurrentWeapon->IsPickup();
+//		CurrentWeapon->OnEquip();
+//
+//	}
+//	else if (CurrentWeapon && bIsHoldingWeapon == true)
+//	{
+//		bIsHoldingWeapon = false;
+//		UE_LOG(LogTemp, Warning, TEXT("Yup"));
+//		CurrentWeapon->OnUnEquip();
+//	}
+//}

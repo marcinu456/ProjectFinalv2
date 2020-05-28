@@ -67,5 +67,26 @@ public:
     /* Set TimerDeley to activate AttackEnd Function, for each weapon use setup in blueprint*/
     UPROPERTY(EditDefaultsOnly, Category = Setup)
         float TimerDelay = 0.5f;
+
+    void IsPickup();
+
+	
+    // Set the Character Owner who pickup the weapon
+    void SetCharacterOwner(AMainCharacter* NewOwner);
+
+    /* Attach weapon to Socket in CharacterOwner Mesh */
+    void AttachToCharacter();
+    /* Attach weapon from Socket in CharacterOwner Mesh */
+    void DetachFromCharacter();
+
+    /* Called when Character try Equip Weapon*/
+    void OnEquip();
+
+    /* Called when Character try UnEquip Weapon*/
+    void OnUnEquip();
+
+    /* Inform if weapon is holding by Character*/
+    bool bIsHolding = false;
+
 	
 };

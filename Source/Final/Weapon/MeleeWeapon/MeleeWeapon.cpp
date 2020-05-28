@@ -3,7 +3,6 @@
 
 #include "MeleeWeapon.h"
 #include "Character/MainCharacter.h"
-#include "Character/MainCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -97,4 +96,57 @@ void AMeleeWeapon::AttackEnd()
     ThingsHit.Empty();
     Swinging = false;
     GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+}
+
+/* Set the Character Owner who pickup the weapon*/
+void AMeleeWeapon::SetCharacterOwner(AMainCharacter* NewOwner)
+{
+    if (WeaponHolder != NewOwner)
+    {
+        WeaponHolder = NewOwner;
+    }
+}
+
+/* Attach weapon to Socket in CharacterOwner Mesh */
+void AMeleeWeapon::AttachToCharacter()
+{
+    if (WeaponHolder)
+    {
+        UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+        UE_LOG(LogTemp, Warning, TEXT("Character name: %s"), *(WeaponHolder->GetName()));
+        DetachFromCharacter();
+        USkeletalMeshComponent* Character = WeaponHolder->GetMesh();
+        Mesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+        Mesh->SetHiddenInGame(false);
+        Mesh->AttachTo(Character, "Weapon_socket");
+        SphereTriggerComponent->SetCollisionProfileName(TEXT("HoldWeapon"));
+    }
+}
+
+/* Attach weapon from Socket in CharacterOwner Mesh */
+void AMeleeWeapon::DetachFromCharacter()
+{
+    Mesh->DetachFromParent();
+    if (WeaponHolder)
+    {
+
+        SetActorLocation(WeaponHolder->GetActorLocation());
+        Mesh->SetRelativeLocation(WeaponHolder->GetActorLocation());
+        SphereTriggerComponent->SetCollisionProfileName(TEXT("Trigger"));
+    }
+}
+
+/* Called when Character try Equip Weapon*/
+void AMeleeWeapon::OnEquip()
+{
+    UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+    AttachToCharacter();
+    bIsHolding = true;
+}
+
+/* Called when Character try UnEquip Weapon*/
+void AMeleeWeapon::OnUnEquip()
+{
+    DetachFromCharacter();
+    bIsHolding = false;
 }

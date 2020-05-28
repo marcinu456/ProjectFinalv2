@@ -3,12 +3,12 @@
 
 #include "PlayerCharacter.h"
 #include "Weapon/Weapon.h"
+#include "Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Math/Vector.h"
 #include "UObject/ConstructorHelpers.h"
-#include "Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Engine.h"
 
 APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
@@ -114,7 +114,8 @@ void APlayerCharacter::AttackInput()
 	}
 	else if (CurrentWeapon && MontageSectionIndex == 4)
 	{
-		CurrentWeapon->OnPickUp();
+		//CurrentWeapon->OnPickUp();
+		UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
 	}
 	else
 	{
@@ -134,7 +135,7 @@ void APlayerCharacter::PickUpWeapon()
 		bIsHoldingWeapon = true;
 		CurrentWeapon->SetCharacterOwner(this);
 		//Spawner->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, "Weapon_socket" );
-		CurrentWeapon->IsPickup();
+		//CurrentWeapon->IsPickup();
 		CurrentWeapon->OnEquip();
 	}
 	else if (CurrentWeapon && bIsHoldingWeapon == true)
