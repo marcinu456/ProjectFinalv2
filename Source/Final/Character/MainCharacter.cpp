@@ -127,6 +127,7 @@ void AMainCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* O
 	if (OtherActor && (OtherActor != this) && OtherComp && bIsHoldingWeapon == false)
 	{
 		CurrentWeapon = NULL;
+		UE_LOG(LogTemp, Warning, TEXT("Nie trzyma"));
 	}
 }
 

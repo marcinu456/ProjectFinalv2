@@ -35,13 +35,13 @@ public:
     AMainCharacter* WeaponHolder;
 
     // bounding box that determines when melee weapon hit 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category =
-        MeleeWeapon)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
         UBoxComponent* ProxBox;
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category =
-        MeleeWeapon)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
         UStaticMeshComponent* Mesh;
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
+		class USphereComponent* SphereTriggerComponent;
 
     UFUNCTION(BlueprintNativeEvent, Category = Collision)
         void Prox(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -53,4 +53,19 @@ public:
 
     void Swing();
     void Rest();
+
+
+    /* Handles input for start attack.*/
+    UFUNCTION()
+        void AttackStart();
+
+
+    /* Handles input for end attack.*/
+    UFUNCTION()
+        void AttackEnd();
+
+    /* Set TimerDeley to activate AttackEnd Function, for each weapon use setup in blueprint*/
+    UPROPERTY(EditDefaultsOnly, Category = Setup)
+        float TimerDelay = 0.5f;
+	
 };

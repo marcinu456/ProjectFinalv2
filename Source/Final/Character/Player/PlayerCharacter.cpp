@@ -109,7 +109,7 @@ void APlayerCharacter::AttackInput()
 		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 		if (MeleeWeapon)
 		{
-			MeleeWeapon->Swing();
+			MeleeWeapon->AttackStart();
 		}
 	}
 	else if (CurrentWeapon && MontageSectionIndex == 4)
