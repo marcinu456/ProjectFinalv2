@@ -85,4 +85,4 @@ DerivedDataCache/*
 /httpRequests/
 #RiderLink
 Plugins/Developer/RiderLink/Binaries/*
-
+Plugins/Developer/RiderLink/Intermediate/*
