@@ -1,12 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Cookie Core
 
 
 
 #include "BotCharacter.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "BotController.h"
-#include "Weapon/Weapon.h"
-#include "Weapon/MeleeWeapon/MeleeWeapon.h"
+#include "Final/Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Math/Vector.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine.h"
@@ -27,8 +26,8 @@ ABotCharacter::ABotCharacter(const FObjectInitializer& ObjectInitializer)
 	// bind trigger events
 	TriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &ABotCharacter::OnOverlapBegin);
 	TriggerCapsule->OnComponentEndOverlap.AddDynamic(this, &ABotCharacter::OnOverlapEnd);
-//	GetFP_GunMesh()->SetOnlyOwnerSee(false);
-//	GetFP_GunMesh()->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	//	GetFP_GunMesh()->SetOnlyOwnerSee(false);
+	//	GetFP_GunMesh()->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 }
 
 //void ABotCharacter::PickUpWeapon()

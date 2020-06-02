@@ -2,7 +2,7 @@
 
 
 #include "MeleeWeapon_Sword.h"
-#include "Character/MainCharacter.h"
+#include "Final/Character/MainCharacter.h"
 #include "Animation/AnimMontage.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SceneComponent.h"

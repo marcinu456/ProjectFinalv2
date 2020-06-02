@@ -1,16 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Cookie Core
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Character/MainCharacter.h"
+#include "Final/Character/MainCharacter.h"
 #include "GameFramework/Character.h"
 #include "BotCharacter.generated.h"
 
 class AWeapon;
 
 /**
- * 
+ *
  */
 UCLASS()
 class FINAL_API ABotCharacter : public AMainCharacter

@@ -2,8 +2,7 @@
 
 
 #include "PlayerCharacter.h"
-#include "Weapon/Weapon.h"
-#include "Weapon/MeleeWeapon/MeleeWeapon.h"
+#include "Final/Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -33,7 +32,7 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
 	TriggerCapsule->InitCapsuleSize(55.f, 96.0f);;
 	TriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	TriggerCapsule->SetupAttachment(RootComponent);
-	
+
 
 	// bind trigger events
 	TriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);
@@ -163,7 +162,7 @@ void APlayerCharacter::SetCursorDirectory()
 
 void APlayerCharacter::ResetLevel()
 {
-	if(Health<=0.f)
-	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+	if (Health <= 0.f)
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 

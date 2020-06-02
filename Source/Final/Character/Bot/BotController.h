@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Cookie Core
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,7 +8,7 @@
 class UBehaviorTreeComponent;
 class UBlackboardComponent;
 /**
- * 
+ *
  */
 UCLASS()
 class FINAL_API ABotController : public AAIController

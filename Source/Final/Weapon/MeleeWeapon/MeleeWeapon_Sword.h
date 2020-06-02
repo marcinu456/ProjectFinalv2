@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Weapon/MeleeWeapon/MeleeWeapon.h"
+#include "MeleeWeapon.h"
 #include "MeleeWeapon_Sword.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FINAL_API AMeleeWeapon_Sword : public AMeleeWeapon
