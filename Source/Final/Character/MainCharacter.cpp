@@ -19,7 +19,7 @@ AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer)
 {
 
 	//Load Animation Montage
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> MeleeFistAttackMontageObject(TEXT("AnimMontage'/Game/FightAnimation/Melee/Animations/MeleeFistAttackMontage.MeleeFistAttackMontage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> MeleeFistAttackMontageObject(TEXT("AnimMontage'/Game/MixamoAnimPack/Mixamo_Alpha/Anims/BP_SwordAnimMontage.BP_SwordAnimMontage'"));
 	if (MeleeFistAttackMontageObject.Succeeded())
 	{
 		MeleeFistAttackMontage = MeleeFistAttackMontageObject.Object;

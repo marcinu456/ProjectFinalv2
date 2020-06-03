@@ -104,8 +104,8 @@ void APlayerCharacter::AttackInput()
 	{
 		MontageSectionIndex = 1;
 		//fstring animation section
-		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
-		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+		// MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
+		//PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 		//if (MeleeWeapon)
 		//{
 		//	MeleeWeapon->AttackStart();
@@ -120,8 +120,8 @@ void APlayerCharacter::AttackInput()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("test"));
 		CurrentWeapon->AttackStart();
-		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
-		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+		//FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
+		PlayAnimMontage(MeleeFistAttackMontage, 1.f);
 	}
 }
 
