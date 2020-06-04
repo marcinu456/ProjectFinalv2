@@ -8,6 +8,7 @@ public class FinalTarget : TargetRules
 	public FinalTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("Final");
 	}
 }

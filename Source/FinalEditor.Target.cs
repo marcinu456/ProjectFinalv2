@@ -8,6 +8,7 @@ public class FinalEditorTarget : TargetRules
 	public FinalEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("Final");
 	}
 }
