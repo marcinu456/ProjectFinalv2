@@ -32,7 +32,7 @@ ABotCharacter::ABotCharacter(const FObjectInitializer& ObjectInitializer)
 	//	GetFP_GunMesh()->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 
 
-    Speed = 20;
+    Speed = 10;
     HitPoints = 20;
     Experience = 0;
     BPLoot = NULL;

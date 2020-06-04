@@ -23,7 +23,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditAnywhere, Category = Behavior)
-		class	UBehaviorTree* BotBehavior;
+		class UBehaviorTree* BotBehavior;
 
 	/* Create Trigger Capsule to get weapon*/
 	UPROPERTY(VisibleAnywhere, Category = "Trigger Capsule")
@@ -32,32 +32,32 @@ public:
 	void PickUpWeapon();
 
     // How fast he is 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MonsterProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
         float Speed;
 
     // The hitpoints the monster has 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MonsterProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
         float HitPoints;
 
     // Experience gained for defeating 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MonsterProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
         int32 Experience;
 
     // Blueprint of the type of item dropped by the monster 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MonsterProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
         UClass* BPLoot;
 
     // The amount of damage attacks do 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MonsterProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
         float BaseAttackDamage;
 
     // Amount of time the monster needs to rest in seconds 
     // between attacking 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MonsterProperties)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
         float AttackTimeout;
 
     // Time since monster's last strike, readable in blueprints 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MonsterProperties)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = EnemyProperties)
         float TimeSinceLastStrike;
 
     // Range for his sight 

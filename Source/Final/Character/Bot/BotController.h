@@ -18,15 +18,22 @@ class FINAL_API ABotController : public AAIController
 public:
 	ABotController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
-protected:
+	
+
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
 
-private:
 	/* Cached BT component */
-	UPROPERTY(transient)
-		UBehaviorTreeComponent* BehaviorComponent;
+	UBehaviorTreeComponent* BehaviorComponent;
 
+	UBlackboardComponent* BlackboardCmp;
+
+	//Start following the player
+	void StartFollowingPlayer();
+	void SetFollowRange(bool war);
+	void SetAttackRange(bool war);
+
+	
 	int32 PlayerObjectKeyID;
 	int32 StartLocationKeyID;
 };
