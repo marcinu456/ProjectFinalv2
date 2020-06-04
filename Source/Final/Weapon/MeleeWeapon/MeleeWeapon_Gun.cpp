@@ -18,7 +18,9 @@ void AMeleeWeapon_Gun::OnPickUp()
 	UE_LOG(LogTemp, Warning, TEXT("It works here too"));
 	if (WeaponHolder && bIsHolding == true)
 	{
-		OnFire();
+		FTimerHandle Timer;
+		GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMeleeWeapon_Gun::OnFire, 0.2f, true, 0.2f);
+		
 	}
 }
 
@@ -31,4 +33,5 @@ void AMeleeWeapon_Gun::OnFire()
 	{
 		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Mesh->GetSocketLocation(FName("Muzzle")), Mesh->GetSocketRotation(FName("Muzzle")));
 	}
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }

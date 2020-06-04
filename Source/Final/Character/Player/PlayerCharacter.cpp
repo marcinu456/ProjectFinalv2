@@ -115,6 +115,7 @@ void APlayerCharacter::AttackInput()
 	{
 		CurrentWeapon->OnPickUp();
 		UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+		PlayAnimMontage(GunAttackMontage, 1.f);
 	}
 	else
 	{

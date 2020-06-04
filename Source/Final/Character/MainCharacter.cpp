@@ -25,6 +25,13 @@ AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer)
 		MeleeFistAttackMontage = MeleeFistAttackMontageObject.Object;
 	}
 
+	//Load Animation Montage
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> GunAttackMontageObject(TEXT("AnimMontage'/Game/MixamoAnimPack/Mixamo_Alpha/Anims/BP_GunAnimMontage.BP_GunAnimMontage'"));
+	if (GunAttackMontageObject.Succeeded())
+	{
+		GunAttackMontage = GunAttackMontageObject.Object;
+	}
+
 	LeftFistCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("LeftFistCollisionBox"));
 	LeftFistCollisionBox->SetupAttachment(RootComponent);
 	LeftFistCollisionBox->SetCollisionProfileName("NoCollision");

@@ -14,7 +14,9 @@ class AFinalGameMode : public AGameModeBase
 public:
 	//AFinalGameMode();
 	
-	float killcount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EnemyProperties)
+		float killcount = 0;
+	
 	void HowManytoKill();
 };
 

@@ -35,4 +35,6 @@ void AFinalGameMode::StartPlay()
 void AFinalGameMode::HowManytoKill()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("kill %f"), killcount - 1));
+	if((killcount-1)==0)
+	GetWorld()->ServerTravel(FString("World'/Game/BluePrint_MainFolder/Maps/MainMenu.MainMenu'"));
 }
