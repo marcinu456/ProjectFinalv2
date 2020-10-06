@@ -2,8 +2,7 @@
 
 
 #include "PlayerCharacter.h"
-#include "Weapon/Weapon.h"
-#include "Weapon/MeleeWeapon/MeleeWeapon.h"
+#include "Final/Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -33,7 +32,7 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
 	TriggerCapsule->InitCapsuleSize(55.f, 96.0f);;
 	TriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	TriggerCapsule->SetupAttachment(RootComponent);
-	
+
 
 	// bind trigger events
 	TriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);
@@ -105,8 +104,8 @@ void APlayerCharacter::AttackInput()
 	{
 		MontageSectionIndex = 1;
 		//fstring animation section
-		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
-		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+		// MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
+		//PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
 		//if (MeleeWeapon)
 		//{
 		//	MeleeWeapon->AttackStart();
@@ -116,13 +115,14 @@ void APlayerCharacter::AttackInput()
 	{
 		CurrentWeapon->OnPickUp();
 		UE_LOG(LogTemp, Warning, TEXT(__FUNCTION__));
+		PlayAnimMontage(GunAttackMontage, 1.f);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("test"));
 		CurrentWeapon->AttackStart();
-		FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
-		PlayAnimMontage(MeleeFistAttackMontage, 1.f, FName(*MontageSection));
+		//FString MontageSection = "Start_" + FString::FromInt(MontageSectionIndex);
+		PlayAnimMontage(MeleeFistAttackMontage, 1.f);
 	}
 }
 
@@ -163,7 +163,7 @@ void APlayerCharacter::SetCursorDirectory()
 
 void APlayerCharacter::ResetLevel()
 {
-	if(Health<=0.f)
-	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+	if (Health <= 0.f)
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 

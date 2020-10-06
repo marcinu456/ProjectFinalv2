@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Cookie Core
 
 #pragma once
 
@@ -7,7 +7,6 @@
 #include "Components/BoxComponent.h"
 #include "MainCharacter.generated.h"
 
-class AWeapon;
 class AMeleeWeapon;
 
 UCLASS(config = Game)
@@ -28,10 +27,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Handles input for start attack.
-		void AttackStart();
-	
+	void AttackStart();
+
 	// Handles input for end attack.
-		void AttackEnd();
+	void AttackEnd();
 
 	// Triggered when the collision hit event fires between weapon and enemy
 	UFUNCTION()
@@ -42,21 +41,22 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = "true"))
 		class UAnimMontage* MeleeFistAttackMontage;
 
+	/** Gun attack montage */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = "true"))
+		class UAnimMontage* GunAttackMontage;
+
 private:
 
 	/** LeftFistCollisionBox */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 		class UBoxComponent* LeftFistCollisionBox;
-	
-	
+
+
 	/** RightFistCollisionBox */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 		class UBoxComponent* RightFistCollisionBox;
 
 public:
-	UPROPERTY(VisibleAnywhere, Category = Spawn)
-		TSubclassOf<AWeapon> WeaponSpawn;
-
 	AMeleeWeapon* CurrentWeapon;
 
 	AMeleeWeapon* HoldingWeapon;
@@ -74,7 +74,7 @@ public:
 
 	/* Set Number of AnimMontage*/
 	int32 MontageSectionIndex = 0;//rand() % 2 + 1;
-	
+
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:

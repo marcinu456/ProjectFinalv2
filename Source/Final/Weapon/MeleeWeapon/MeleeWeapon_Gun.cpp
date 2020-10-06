@@ -2,8 +2,8 @@
 
 
 #include "MeleeWeapon_Gun.h"
-#include "Character/MainCharacter.h"
-#include "Weapon/Projectile.h"
+#include "Final/Character/MainCharacter.h"
+#include "Projectile.h"
 #include "Components/SkeletalMeshComponent.h"
 
 AMeleeWeapon_Gun::AMeleeWeapon_Gun(const FObjectInitializer& ObjectInitializer)
@@ -18,7 +18,9 @@ void AMeleeWeapon_Gun::OnPickUp()
 	UE_LOG(LogTemp, Warning, TEXT("It works here too"));
 	if (WeaponHolder && bIsHolding == true)
 	{
-		OnFire();
+		FTimerHandle Timer;
+		GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMeleeWeapon_Gun::OnFire, 0.2f, true, 0.2f);
+		
 	}
 }
 
@@ -26,9 +28,10 @@ void AMeleeWeapon_Gun::OnPickUp()
 void AMeleeWeapon_Gun::OnFire()
 {
 
-	// try and fire a projectile
+	 //try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
 		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Mesh->GetSocketLocation(FName("Muzzle")), Mesh->GetSocketRotation(FName("Muzzle")));
 	}
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }

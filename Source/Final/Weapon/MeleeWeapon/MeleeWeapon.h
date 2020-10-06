@@ -41,7 +41,7 @@ public:
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
         UStaticMeshComponent* Mesh;
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = MeleeWeapon)
-		class USphereComponent* SphereTriggerComponent;
+        class USphereComponent* SphereTriggerComponent;
 
     UFUNCTION(BlueprintNativeEvent, Category = Collision)
         void Prox(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -70,7 +70,7 @@ public:
 
     void IsPickup();
 
-	
+
     // Set the Character Owner who pickup the weapon
     void SetCharacterOwner(AMainCharacter* NewOwner);
 

@@ -2,7 +2,7 @@
 
 
 #include "MeleeWeapon.h"
-#include "Character/MainCharacter.h"
+#include "Final/Character/MainCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -26,13 +26,15 @@ AMeleeWeapon::AMeleeWeapon(const FObjectInitializer& ObjectInitializer)
 
     ProxBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("ProxBox"));
     ProxBox->OnComponentBeginOverlap.AddDynamic(this, &AMeleeWeapon::Prox);
-    ProxBox->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+    ProxBox->SetupAttachment(RootComponent);
+   // ProxBox->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform); Powoduje b³¹d przy pakowaniu
 
-    SphereTriggerComponent = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereTriggerComponent"));
+    SphereTriggerComponent = CreateDefaultSubobject<USphereComponent>("SphereTriggerComponent");
     SphereTriggerComponent->InitSphereRadius(100.0f);
     SphereTriggerComponent->SetCollisionProfileName(TEXT("Trigger"));
-    SphereTriggerComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
-	
+	SphereTriggerComponent->SetupAttachment(RootComponent);
+   // SphereTriggerComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform); Powoduje b³¹d przy pakowaniu
+
 }
 
 int AMeleeWeapon::Prox_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,

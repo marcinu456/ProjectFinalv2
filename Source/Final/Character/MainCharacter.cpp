@@ -1,29 +1,35 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Cookie Core
 
 
 #include "MainCharacter.h"
-#include "Weapon/Weapon.h"
-#include "Weapon/MeleeWeapon/MeleeWeapon.h"
+#include "Final/Weapon/MeleeWeapon/MeleeWeapon.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Math/Vector.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine.h"
-#include "Final_CharacterMovementComponent.h"
+#include "MainCharacterMovementComponent.h"
 #include "GameFramework/Character.h"
-#include "MyFinalGameModeBase.h"
+#include "Final/FinalGameMode.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.SetDefaultSubobjectClass<UFinal_CharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<UMainCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 
 	//Load Animation Montage
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> MeleeFistAttackMontageObject(TEXT("AnimMontage'/Game/FightAnimation/Melee/Animations/MeleeFistAttackMontage.MeleeFistAttackMontage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> MeleeFistAttackMontageObject(TEXT("AnimMontage'/Game/MixamoAnimPack/Mixamo_Alpha/Anims/BP_SwordAnimMontage.BP_SwordAnimMontage'"));
 	if (MeleeFistAttackMontageObject.Succeeded())
 	{
 		MeleeFistAttackMontage = MeleeFistAttackMontageObject.Object;
+	}
+
+	//Load Animation Montage
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> GunAttackMontageObject(TEXT("AnimMontage'/Game/MixamoAnimPack/Mixamo_Alpha/Anims/BP_GunAnimMontage.BP_GunAnimMontage'"));
+	if (GunAttackMontageObject.Succeeded())
+	{
+		GunAttackMontage = GunAttackMontageObject.Object;
 	}
 
 	LeftFistCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("LeftFistCollisionBox"));
@@ -67,7 +73,7 @@ void AMainCharacter::BeginPlay()
 	//RightFistCollisionBox->OnComponentBeginOverlap.AddDynamic(this, &AMainCharacter::OnAttackOverlapBegin);
 	//RightFistCollisionBox->OnComponentEndOverlap.AddDynamic(this, &AMainCharacter::OnAttackOverlapEnd);
 
-	AMyFinalGameModeBase* GameMode = Cast<AMyFinalGameModeBase>(GetWorld()->GetAuthGameMode());
+	AFinalGameMode* GameMode = Cast<AFinalGameMode>(GetWorld()->GetAuthGameMode());
 	GameMode->killcount += 1;
 }
 
@@ -115,7 +121,7 @@ void AMainCharacter::OnAttackHit(UPrimitiveComponent* HitComponent, AActor* Othe
 /* declare overlap begin function */
 void AMainCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp && OtherActor->GetClass()->IsChildOf(AMeleeWeapon::StaticClass())&&bIsHoldingWeapon==false)
+	if (OtherActor && (OtherActor != this) && OtherComp && OtherActor->GetClass()->IsChildOf(AMeleeWeapon::StaticClass()) && bIsHoldingWeapon == false)
 	{
 		CurrentWeapon = Cast<AMeleeWeapon>(OtherActor);
 	}
@@ -140,7 +146,7 @@ float AMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("[Jeb]"));
 		Health -= DamageAmount;
 	}
-	if(Health<=0.f)
+	if (Health <= 0.f)
 	{
 		// Stop movement.
 		GetMovementComponent()->StopMovementImmediately();
@@ -153,7 +159,7 @@ float AMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& 
 		GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
 		// Disable collision for capsule.
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		AMyFinalGameModeBase* GameMode = Cast<AMyFinalGameModeBase>(GetWorld()->GetAuthGameMode());
+		AFinalGameMode* GameMode = Cast<AFinalGameMode>(GetWorld()->GetAuthGameMode());
 		GameMode->killcount -= 1;
 		GameMode->HowManytoKill();
 	}

@@ -1,17 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// By Cookie Core
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Character/MainCharacter.h"
+#include "Final/Character/MainCharacter.h"
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
 /**
- * 
+ *
  */
-
-class AWeapon;
 class AMeleeWeapon;
 
 UCLASS()
@@ -26,7 +24,7 @@ public:
 
 	/* Called to bind functionality to input */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 	/* Handles input for moving forward and backward. */
 	UFUNCTION()
 		void MoveForward(float Value);
@@ -61,7 +59,7 @@ public:
 		class UCapsuleComponent* TriggerCapsule;
 
 
-	
+
 private:
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -70,3 +68,4 @@ private:
 	void ResetLevel();
 
 };
+

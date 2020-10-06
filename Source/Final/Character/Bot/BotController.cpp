@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Cookie Core
 
 
 #include "BotController.h"
@@ -13,13 +13,20 @@
 ABotController::ABotController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	Blackboard = ObjectInitializer.CreateDefaultSubobject<UBlackboardComponent>(this, TEXT("BlackBoardComponent"));
+	Blackboard = ObjectInitializer.CreateDefaultSubobject<UBlackboardComponent>(this, TEXT("BP_BotBlackboardData"));
 
-	BrainComponent = BehaviorComponent = ObjectInitializer.CreateDefaultSubobject<UBehaviorTreeComponent>(this, TEXT("BehaviorComponent"));
+	BrainComponent = BehaviorComponent = ObjectInitializer.CreateDefaultSubobject<UBehaviorTreeComponent>(this, TEXT("BP_BotBehaviorTree"));
 
 	// Its important for multiplayer game.
 	// With this also bots has player state (and can get points to display in rankings menu).
 	bWantsPlayerState = true;
+}
+
+void ABotController::StartFollowingPlayer()
+{
+	AActor* player = Cast<AActor>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	FVector playerPos = player->GetActorLocation();
+	MoveToLocation(playerPos);
 }
 
 void ABotController::OnPossess(APawn* InPawn)
@@ -61,13 +68,24 @@ void ABotController::OnPossess(APawn* InPawn)
 
 void ABotController::OnUnPossess()
 {
+	Super::OnUnPossess();
 	BehaviorComponent->StopTree();
+	
 	/* or
 	BrainComponent->StopLogic(TEXT(""));
 	   or
 	Cast<UBehaviorTreeComponent>(BrainComponent)->StopTree();
 	*/
 
-	Super::OnUnPossess();
+	
 }
 
+void ABotController::SetFollowRange(bool war)
+{
+	BlackboardCmp->SetValueAsBool("IsInFollowRange", war);
+}
+
+void ABotController::SetAttackRange(bool war)
+{
+	BlackboardCmp->SetValueAsBool("IsInAttackRange", war);
+}
